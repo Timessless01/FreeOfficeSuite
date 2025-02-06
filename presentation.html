@@ -7,11 +7,34 @@
   
   <!-- Reveal.js CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-  <!-- Theme (change to "white.css", "league.css", etc.) -->
+  <!-- Theme (Black) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
   
   <!-- Syntax Highlighting (Highlight.js) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+  
+  <!-- jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <!-- Custom CSS for Export Button -->
+  <style>
+    #export-pdf {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      padding: 10px 20px;
+      background: #6200ea;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #export-pdf:hover {
+      background: #3700b3;
+    }
+  </style>
 </head>
 <body>
   <div class="reveal">
@@ -21,6 +44,8 @@
         <h1>FreeOfficeSuite</h1>
         <p>Create stunning presentations for free!</p>
         <p><small>Powered by Reveal.js</small></p>
+        <!-- Local Image -->
+        <img src="/images/logo.png" alt="FreeOfficeSuite Logo" style="width: 200px; height: auto;">
       </section>
 
       <!-- Slide 2: Features -->
@@ -56,6 +81,9 @@
     </div>
   </div>
 
+  <!-- PDF Export Button -->
+  <button id="export-pdf">Export as PDF</button>
+
   <!-- Reveal.js Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
   <!-- Syntax Highlighting Plugin -->
@@ -64,13 +92,11 @@
   <script>
     // Initialize Reveal.js with Plugins
     Reveal.initialize({
-      controls: true,  // Show control arrows
-      progress: true,  // Show progress bar
-      hash: true,      // Enable slide URLs
-      center: true,    // Center slides vertically
-      transition: 'slide', // Animation style
-
-      // Enable Highlight.js for code blocks
+      controls: true,
+      progress: true,
+      hash: true,
+      center: true,
+      transition: 'slide',
       dependencies: [
         { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.js', async: true }
       ]
@@ -78,6 +104,50 @@
 
     // Initialize Highlight.js
     hljs.initHighlightingOnLoad();
+
+    // PDF Export Functionality
+    document.getElementById('export-pdf').addEventListener('click', () => {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const slides = document.querySelectorAll('.slides section');
+
+      slides.forEach((slide, index) => {
+        if (index > 0) pdf.addPage();
+
+        // Add Title
+        const title = slide.querySelector('h1, h2')?.innerText || `Slide ${index + 1}`;
+        pdf.setFontSize(22);
+        pdf.setTextColor(40, 40, 40);
+        pdf.text(title, 20, 20);
+
+        // Add Content
+        const content = slide.innerText.replace(title, '').trim();
+        pdf.setFontSize(14);
+        pdf.setTextColor(80, 80, 80);
+        pdf.text(content, 20, 40, { maxWidth: 170 });
+
+        // Add Images
+        const images = slide.querySelectorAll('img');
+        images.forEach((img, imgIndex) => {
+          const imgData = img.src;
+          if (imgData.startsWith('http')) {
+            // Handle external images
+            pdf.addImage(imgData, 'JPEG', 20, 80 + (imgIndex * 50), 100, 50);
+          } else {
+            // Handle local images
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            ctx.drawImage(img, 0, 0);
+            const dataURL = canvas.toDataURL('image/jpeg');
+            pdf.addImage(dataURL, 'JPEG', 20, 80 + (imgIndex * 50), 100, 50);
+          }
+        });
+      });
+
+      pdf.save('presentation.pdf');
+    });
   </script>
 </body>
 </html>
