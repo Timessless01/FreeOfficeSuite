@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreeOfficeSuite - Presentation Editor</title>
+  
+  <!-- Reveal.js CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <!-- Theme (change to "white.css", "league.css", etc.) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
+  
+  <!-- Syntax Highlighting (Highlight.js) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai.min.css">
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <!-- Slide 1: Welcome -->
+      <section>
+        <h1>FreeOfficeSuite</h1>
+        <p>Create stunning presentations for free!</p>
+        <p><small>Powered by Reveal.js</small></p>
+      </section>
+
+      <!-- Slide 2: Features -->
+      <section>
+        <h2>Key Features</h2>
+        <ul>
+          <li>Real-time collaboration</li>
+          <li>PDF/PPTX export</li>
+          <li>Code syntax highlighting</li>
+          <li>100% free & open-source</li>
+        </ul>
+      </section>
+
+      <!-- Slide 3: Code Example -->
+      <section>
+        <h2>Code Demo</h2>
+        <pre><code data-trim data-noescape class="javascript">
+          // Hello World in JavaScript
+          function greet() {
+            console.log("Hello, World!");
+            return "Welcome to FreeOfficeSuite!";
+          }
+          greet();
+        </code></pre>
+      </section>
+
+      <!-- Slide 4: Get Started -->
+      <section>
+        <h2>Get Started</h2>
+        <p>Use the arrow keys or spacebar to navigate!</p>
+        <p>🖨️ Export as PDF | 💾 Save to Cloud</p>
+      </section>
+    </div>
+  </div>
+
+  <!-- Reveal.js Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <!-- Syntax Highlighting Plugin -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  
+  <script>
+    // Initialize Reveal.js with Plugins
+    Reveal.initialize({
+      controls: true,  // Show control arrows
+      progress: true,  // Show progress bar
+      hash: true,      // Enable slide URLs
+      center: true,    // Center slides vertically
+      transition: 'slide', // Animation style
+
+      // Enable Highlight.js for code blocks
+      dependencies: [
+        { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.js', async: true }
+      ]
+    });
+
+    // Initialize Highlight.js
+    hljs.initHighlightingOnLoad();
+  </script>
+</body>
+</html>
